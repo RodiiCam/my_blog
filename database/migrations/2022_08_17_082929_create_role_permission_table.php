@@ -15,14 +15,9 @@ return new class extends Migration
     {
         Schema::create('role_permission', function (Blueprint $table) {
             $table->id();
-            $table->integer('role_id')->unsigned();
-            $table->integer('permission_id')->unsigned();
-            $table->timestamps();
-        });
-
-        Schema::table('role_permission', function (Blueprint $table) {
             $table->foreignId('role_id')->constrained('roles')->onDelete('cascade');
             $table->foreignId('permission_id')->constrained('permissions')->onDelete('cascade');
+            $table->timestamps();
         });
     }
 

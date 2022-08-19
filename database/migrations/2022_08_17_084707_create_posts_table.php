@@ -18,11 +18,8 @@ return new class extends Migration
             $table->string('title');
             $table->text('body');
             $table->tinyInteger('status');
-            $table->timestamps();
-        });
-
-        Schema::table('posts', function (Blueprint $table) {
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->timestamps();
         });
     }
 
