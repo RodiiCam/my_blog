@@ -63,11 +63,32 @@ class DashboardController extends Controller
         return view('dashboard.index', ['paginatedPosts' => $paginatedPosts]);
     }
 
+    /**
+     * Post edit
+     *
+     * @param Request $request
+     * @param integer $postId
+     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
+     */
     public function postEdit(Request $request, $postId)
     {
-        $this->postValidationService->postEditValidation($request);
         $post = $this->postRepository->getPostById($postId);
 
-        return view('dashboard.post.edit', ['paginatedPosts' => $post]);
+        if($request->isMethod('post')) {
+            $validated = $this->postValidationService->postEditValidation($request);
+
+            if($validated->fails()) {
+                return redirect()->route('dashboard.post.edit', ['post_id' => $postId])
+                    ->withErrors($validated)
+                    ->withInput();
+            } else {
+                $this->postRepository->updatePostById($postId, $validated->validated());
+
+                return redirect()->route('dashboard.post.edit', ['post_id' => $postId])
+                    ->with('update_success', 'Post updated!');
+            }
+        }
+
+        return view('dashboard.post.edit', ['post' => $post]);
     }
 }

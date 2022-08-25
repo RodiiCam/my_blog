@@ -2,6 +2,10 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\{
+    DashboardController, 
+    HomeController
+};
 
 /*
 |--------------------------------------------------------------------------
@@ -20,9 +24,11 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('home');
-    Route::match(['get', 'post'], '/dashboard/post/{post_id}/edit', [App\Http\Controllers\DashboardController::class, 'postEdit'])->name('dashboard.post.edit');
+    Route::prefix('dashboard')->group(function () {
+        Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+        Route::match(['get', 'post'], '/post/{post_id}/edit', [DashboardController::class, 'postEdit'])->name('dashboard.post.edit');
+    });
 });

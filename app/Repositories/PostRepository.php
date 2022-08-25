@@ -73,7 +73,7 @@ class PostRepository
      * @param integer $userId
      * @param integer $limit
      * @param integer $page
-     * @return void
+     * @return Collection
      */
     public function getPostsPaginatedByUserId($userId, $limit, $page = 0)
     {
@@ -82,8 +82,30 @@ class PostRepository
         return $posts;
     }
 
+    /**
+     * Get post by id
+     *
+     * @param integer] $id
+     * @return Array
+     */
     public function getPostById($id)
     {
         return $this->post->where('id', $id)->first();
+    }
+
+    /**
+     * Update post by id
+     *
+     * @param integer] $id
+     * @return Array
+     */
+    public function updatePostById($id, $input)
+    {
+        $this->post->where('id', $id)->update([
+            'title' => $input['post_title'],
+            'body' => $input['post_body'],
+        ]);
+
+        return;
     }
 }
