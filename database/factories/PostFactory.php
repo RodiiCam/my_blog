@@ -16,10 +16,15 @@ class PostFactory extends Factory
      */
     public function definition()
     {
+        $created_at = fake()->dateTimeBetween('-3 month', 'now +2 month');
+        $updated_at = fake()->dateTimeBetween($created_at, 'now +2 month');
+        
         return [
             'title' => fake()->text(fake()->numberBetween(10, 30)),
             'body' => fake()->text(fake()->numberBetween(100, 200)),
-            'status' => 2
+            'status' => 2,
+            'created_at' => $created_at,
+            'updated_at' => $updated_at
         ];
     }
 

@@ -19,7 +19,11 @@ return new class extends Migration
             $table->text('body');
             $table->tinyInteger('status');
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->tinyInteger('created_by_admin')->nullable();
+            $table->tinyInteger('edited_by_admin')->nullable();
+            $table->tinyInteger('last_edit_by_admin')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

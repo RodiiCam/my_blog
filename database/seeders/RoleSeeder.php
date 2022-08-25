@@ -32,7 +32,7 @@ class RoleSeeder extends Seeder
                 'permissions' => [
                     'can create only own post',
                     'can edit only own post',
-                    'can view only own post',
+                    'can view any post',
                     'can delete only own post',
                     'can change status of only own post',
                 ]
@@ -40,18 +40,21 @@ class RoleSeeder extends Seeder
         ];
 
         $permissionsList = Permission::get();
-
+        
         foreach ($rolesList as $roleName => $roleVal) {
             $role = new Role();
             $role->name = $roleName;
             $role->hierarchy = $roleVal['hierarchy'];
             $role->save();
 
+            $permissionIds = [];
             foreach ($permissionsList as $permission) {
                 if (in_array($permission->name, $roleVal['permissions'])) {
-                    $role->permission()->attach($permission);
+                    $permissionIds[] = $permission->id;
                 }
             }
+
+            $role->permissions()->attach($permissionIds);
         }
     }
 }
