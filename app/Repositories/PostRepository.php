@@ -86,7 +86,7 @@ class PostRepository
      * Get post by id
      *
      * @param integer] $id
-     * @return Array
+     * @return Post
      */
     public function getPostById($id)
     {
@@ -97,7 +97,7 @@ class PostRepository
      * Update post by id
      *
      * @param integer] $id
-     * @return Array
+     * @return void
      */
     public function updatePostById($id, $input)
     {

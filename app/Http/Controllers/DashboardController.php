@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Repositories\PostRepository;
+use App\Repositories\UserRepository;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 use App\Services\PostValidationService;
@@ -18,6 +19,11 @@ class DashboardController extends Controller
     public $postRepository;
 
     /**
+     *  UserRepository
+     */
+    public $userRepository;
+
+    /**
      *  PostValidationService
      */
     public $postValidationService;
@@ -27,40 +33,15 @@ class DashboardController extends Controller
      *
      * @return void
      */
-    public function __construct(PostRepository $postRepository, PostValidationService $postValidationService)
+    public function __construct(
+        PostRepository $postRepository,
+        PostValidationService $postValidationService,
+        UserRepository $userRepository
+    )
     {
         $this->postRepository = $postRepository;
+        $this->userRepository = $userRepository;
         $this->postValidationService = $postValidationService;
-    }
-
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
-    public function index(Request $request)
-    {
-        $userId = Auth::id();
-
-        $perPage = 10;
-        $currentPage = $request->get("page") ?? 0;
-        $offset = $request->get("page") ? ($request->get("page") - 1) * $perPage : 0;
-
-        $posts = $this->postRepository->getPostsPaginatedByUserId($userId, $perPage, $offset);
-        $postsCount = $this->postRepository->getPostsCountsByUserId($userId);
-
-        $paginatedPosts = new LengthAwarePaginator(
-            $posts,
-            $postsCount,
-            $perPage,
-            $currentPage,
-            [
-                'path' => request()->url(),
-                'query' => request()->query(),
-            ]
-        );
-
-        return view('dashboard.index', ['paginatedPosts' => $paginatedPosts]);
     }
 
     /**

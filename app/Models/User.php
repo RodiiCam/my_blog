@@ -60,4 +60,25 @@ class User extends Authenticatable
     {
         return $this->hasMany(Post::class);
     }
+
+    /**
+     * Check if role matches the role for that user
+     *
+     * @param string $userRole
+     * @return boolean
+     */
+    public function hasRole($userRole)
+    {
+        return null !== $this->roles()->where('name', $userRole)->first();
+    }
+
+    /**
+     * Check if has role as admin
+     *
+     * @return boolean
+     */
+    public function isAdmin()
+    {
+        return $this->hasRole('admin');
+    }
 }

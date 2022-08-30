@@ -27,8 +27,9 @@ Auth::routes();
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::middleware('auth')->group(function () {
+    // Route::get('/', [HomeController::class, 'index'])->name('home');
+
     Route::prefix('dashboard')->group(function () {
-        Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
         Route::match(['get', 'post'], '/post/{post_id}/edit', [DashboardController::class, 'postEdit'])->name('dashboard.post.edit');
     });
 });
