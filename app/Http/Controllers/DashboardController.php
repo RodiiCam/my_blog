@@ -72,4 +72,22 @@ class DashboardController extends Controller
 
         return view('dashboard.post.edit', ['post' => $post]);
     }
+
+    /**
+     * Post delete
+     *
+     * @param Request $request
+     * @param integer $postId
+     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
+     */
+    public function postDelete(Request $request, $postId)
+    {
+        $post = $this->postRepository->getPostById($postId);
+
+        if($request->isMethod('post')) {
+            
+        }
+
+        return view('dashboard.post.edit', ['post' => $post]);
+    }
 }

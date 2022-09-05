@@ -32,7 +32,7 @@
                             <textarea class="form-control" name="post_body" id="post-body" rows="5" placeholder="Body...">{{ old('post_body', $post->body) }}</textarea>
                         </div>
                         <button type="submit" class="btn btn-primary">Save</button>
-                        <a href="{{ route('dashboard') }}" type="button" class="btn btn-primary">Back</a>
+                        <a href="{{ route('home') }}" type="button" class="btn btn-primary">Back</a>
                     </form>
                     <br>
                 </div>

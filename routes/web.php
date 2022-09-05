@@ -31,5 +31,6 @@ Route::middleware('auth')->group(function () {
 
     Route::prefix('dashboard')->group(function () {
         Route::match(['get', 'post'], '/post/{post_id}/edit', [DashboardController::class, 'postEdit'])->name('dashboard.post.edit');
+        Route::post('/post/{post_id}/delete', [DashboardController::class, 'postDelete'])->name('dashboard.post.delete');
     });
 });

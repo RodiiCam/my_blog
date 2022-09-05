@@ -30,7 +30,7 @@ class RoleSeeder extends Seeder
             'editor' => [
                 'hierarchy' => 2,
                 'permissions' => [
-                    'can create only own post',
+                    'can create any post',
                     'can edit only own post',
                     'can view any post',
                     'can delete only own post',
