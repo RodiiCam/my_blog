@@ -51,4 +51,30 @@ class PostValidationService
 
         return $validator;
     }
+
+    /**
+     * Post create validation
+     *
+     * @param Illuminate\Http\Request $request
+     * @return \Illuminate\Contracts\Validation\Validator|\Illuminate\Validation\Validator
+     */
+    public function postCreateValidation($request)
+    {
+        $rules = [
+            'post_title' => 'required|max:255',
+            'post_body' => 'required',
+            'post_status' => 'required',
+        ];
+
+        $messages = [
+            'post_title.required' => 'Post title is required!',
+            'post_title.max' => 'Post title has reached max number of characters!',
+            'post_body.required' => 'Post body is required!',
+            'post_status.required' => 'Post status is required!'
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $messages);
+
+        return $validator;
+    }
 }

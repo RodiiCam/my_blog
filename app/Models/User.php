@@ -81,4 +81,23 @@ class User extends Authenticatable
     {
         return $this->hasRole('admin');
     }
+
+    /**
+     * Create user post
+     *
+     * @param array $input
+     * @return void
+     */
+    public function createPost($input)
+    {
+        $this->posts()->create(
+            [
+                'title' => $input['post_title'],
+                'body' => $input['post_body'],
+                'status' => $input['post_status'],
+            ]
+        );
+
+        return;
+    }
 }

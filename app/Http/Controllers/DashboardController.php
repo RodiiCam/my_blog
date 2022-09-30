@@ -46,6 +46,35 @@ class DashboardController extends Controller
     }
 
     /**
+     * Post create
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
+     */
+    public function postCreate(Request $request)
+    {
+        $userId = Auth::id();
+        $user = $this->userRepository->getUserById($userId);
+
+        if($request->isMethod('post')) {
+            $validated = $this->postValidationService->postCreateValidation($request);
+
+            if($validated->fails()) {
+                return redirect()->route('dashboard.post.create')
+                    ->withErrors($validated)
+                    ->withInput();
+            } else {
+                $user->createPost($validated->validated());
+
+                return redirect()->route('dashboard.post.create')
+                    ->with('create_success', 'Post created!');
+            }
+        }
+
+        return view('dashboard.post.create');
+    }
+
+    /**
      * Post edit
      *
      * @param Request $request
@@ -86,7 +115,7 @@ class DashboardController extends Controller
     {
         $post = $this->postRepository->getPostById($postId);
         $this->authorize('update', $post);
-        
+
         if($request->isMethod('post')) {
             $validated = $this->postValidationService->postDeleteValidation($postId);
             

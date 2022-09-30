@@ -96,7 +96,7 @@ class PostRepository
     /**
      * Update post by id
      *
-     * @param integer] $id
+     * @param integer $id
      * @return void
      */
     public function updatePostById($id, $input)

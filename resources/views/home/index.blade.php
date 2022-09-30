@@ -4,6 +4,9 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
+                <div class="post-buttons d-flex justify-content-end pb-2">
+                    <a class="btn btn-primary add-post" href={{ route('dashboard.post.create') }}>Add Post</a>
+                </div>
                 @foreach ($paginatedPosts as $post)
                     <div class="card">
                         <h5 class="card-header">{{ $post->title }}</h5>

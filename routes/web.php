@@ -30,6 +30,7 @@ Route::middleware('auth')->group(function () {
     // Route::get('/', [HomeController::class, 'index'])->name('home');
 
     Route::prefix('dashboard')->group(function () {
+        Route::match(['get', 'post'], '/post/create', [DashboardController::class, 'postCreate'])->name('dashboard.post.create');
         Route::match(['get', 'post'], '/post/{post_id}/edit', [DashboardController::class, 'postEdit'])->name('dashboard.post.edit');
         Route::post('/post/{post_id}/delete', [DashboardController::class, 'postDelete'])->name('dashboard.post.delete');
     });
