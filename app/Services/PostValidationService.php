@@ -29,4 +29,26 @@ class PostValidationService
 
         return $validator;
     }
+
+    /**
+     * Post delete validation
+     *
+     * @param Illuminate\Http\Request $request
+     * @return \Illuminate\Contracts\Validation\Validator|\Illuminate\Validation\Validator
+     */
+    public function postDeleteValidation($postId)
+    {
+        $rules = [
+            'post_id' => ['required', 'exists:posts,id']
+        ];
+
+        $messages = [
+            'post_id.required' => 'Post ID is required!',
+            'post_id.exists' => 'Post does not exist!',
+        ];
+
+        $validator = Validator::make(['post_id' => $postId], $rules, $messages);
+
+        return $validator;
+    }
 }

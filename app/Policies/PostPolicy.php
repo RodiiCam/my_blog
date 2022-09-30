@@ -48,37 +48,15 @@ class PostPolicy
      * Determine whether the user can update the model.
      *
      * @param  \App\Models\User  $user
-     * @return \Illuminate\Auth\Access\Response|bool
-     */
-    public function updateAny(User $user)
-    {
-        return $user->hasRole('admin');
-    }
-
-        /**
-     * Determine whether the user can update the model.
-     *
-     * @param  \App\Models\User  $user
      * @param  \App\Models\Post  $post
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function updateOnlyOwn(User $user, Post $post)
+    public function update(User $user, Post $post)
     {
-        return $user->id === $post->user_id;
+        // Return true if post belongs to user or if user is admin
+        return $user->id === $post->user_id || $user->hasRole('admin');
     }
 
-    /**
-     * Determine whether the user can delete the model.
-     *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Auth\Access\Response|bool
-     */
-    public function deleteAny(User $user, Post $post)
-    {
-        return $user->hasRole('admin');
-    }
-
-    
     /**
      * Determine whether the user can delete the model.
      *
@@ -86,9 +64,10 @@ class PostPolicy
      * @param  \App\Models\Post  $post
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function deleteOnlyOwn(User $user, Post $post)
+    public function delete(User $user, Post $post)
     {
-        return $user->id === $post->user_id;
+        // Return true if post belongs to user or if user is admin
+        return $user->id === $post->user_id || $user->hasRole('admin');
     }
 
 

@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Services\PostValidationService;
 use App\Models\Permission;
 use App\Models\Role;
+use App\Models\Post;
 
 class DashboardController extends Controller
 {
@@ -54,6 +55,7 @@ class DashboardController extends Controller
     public function postEdit(Request $request, $postId)
     {
         $post = $this->postRepository->getPostById($postId);
+        $this->authorize('update', $post);
 
         if($request->isMethod('post')) {
             $validated = $this->postValidationService->postEditValidation($request);
@@ -78,16 +80,30 @@ class DashboardController extends Controller
      *
      * @param Request $request
      * @param integer $postId
-     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
+     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory|\Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
      */
     public function postDelete(Request $request, $postId)
     {
         $post = $this->postRepository->getPostById($postId);
-
+        $this->authorize('update', $post);
+        
         if($request->isMethod('post')) {
+            $validated = $this->postValidationService->postDeleteValidation($postId);
             
-        }
+            if($validated->fails()) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => $validated->errors()
+                ]);
+            } else {
+                $post = $this->postRepository->getPostById($postId);
+                $post->delete();
 
-        return view('dashboard.post.edit', ['post' => $post]);
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'Post deleted!'
+                ]);
+            }
+        }
     }
 }
