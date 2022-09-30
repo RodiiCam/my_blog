@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Repositories\PostRepository;
 use App\Repositories\UserRepository;
+use App\Repositories\PostStatusesRepository;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 use App\Services\PostValidationService;
@@ -25,6 +26,11 @@ class DashboardController extends Controller
     public $userRepository;
 
     /**
+     *  PostStatusesRepository
+     */
+    public $postStatusesRepository;
+
+    /**
      *  PostValidationService
      */
     public $postValidationService;
@@ -37,12 +43,14 @@ class DashboardController extends Controller
     public function __construct(
         PostRepository $postRepository,
         PostValidationService $postValidationService,
-        UserRepository $userRepository
+        UserRepository $userRepository,
+        PostStatusesRepository $postStatusesRepository
     )
     {
         $this->postRepository = $postRepository;
         $this->userRepository = $userRepository;
         $this->postValidationService = $postValidationService;
+        $this->postStatusesRepository = $postStatusesRepository;
     }
 
     /**
@@ -55,6 +63,7 @@ class DashboardController extends Controller
     {
         $userId = Auth::id();
         $user = $this->userRepository->getUserById($userId);
+        $postStatuses = $this->postStatusesRepository->getPostStatuses();
 
         if($request->isMethod('post')) {
             $validated = $this->postValidationService->postCreateValidation($request);
@@ -71,7 +80,7 @@ class DashboardController extends Controller
             }
         }
 
-        return view('dashboard.post.create');
+        return view('dashboard.post.create', ['post_statuses' => $postStatuses]);
     }
 
     /**
@@ -85,6 +94,7 @@ class DashboardController extends Controller
     {
         $post = $this->postRepository->getPostById($postId);
         $this->authorize('update', $post);
+        $postStatuses = $this->postStatusesRepository->getPostStatuses();
 
         if($request->isMethod('post')) {
             $validated = $this->postValidationService->postEditValidation($request);
@@ -101,7 +111,10 @@ class DashboardController extends Controller
             }
         }
 
-        return view('dashboard.post.edit', ['post' => $post]);
+        return view('dashboard.post.edit', [
+            'post' => $post,
+            'post_statuses' => $postStatuses
+        ]);
     }
 
     /**

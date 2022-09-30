@@ -104,6 +104,7 @@ class PostRepository
         $this->post->where('id', $id)->update([
             'title' => $input['post_title'],
             'body' => $input['post_body'],
+            'status' => $input['post_status']
         ]);
 
         return;

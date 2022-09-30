@@ -38,9 +38,9 @@
                             @enderror
                             <select name="post_status" id="post-status">
                                 <option value="">--Please choose an option--</option>
-                                <option value="0">Draft</option>
-                                <option value="1">Unpublished</option>
-                                <option value="2">Published</option>
+                                @foreach($post_statuses as $post_status)
+                                    <option value="{{ $post_status->id }}" {{ $post->status == $post_status->id ? 'selected' : '' }}>{{ $post_status->name }}</option>
+                                @endforeach
                             </select>
                         </div>
                         <button type="submit" class="btn btn-primary">Save</button>

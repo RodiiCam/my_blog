@@ -34,9 +34,9 @@
                             <div><label for="post-status">Post Status</label></div>
                             <select name="post_status" id="post-status" class="mb-1">
                                 <option value="">--Please choose an option--</option>
-                                <option value="0">Draft</option>
-                                <option value="1">Unpublished</option>
-                                <option value="2">Published</option>
+                                @foreach($post_statuses as $post_status)
+                                    <option value="{{ $post_status->id }}">{{ $post_status->name }}</option>
+                                @endforeach
                             </select>
                             @error('post_status')
                                 <div class="alert alert-danger">{{ $message }}</div>
