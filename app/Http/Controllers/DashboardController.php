@@ -148,4 +148,29 @@ class DashboardController extends Controller
             }
         }
     }
+
+    public function myPosts(Request $request)
+    {
+        $userId = Auth::id();
+
+        $perPage = 10;
+        $currentPage = $request->get("page") ?? 0;
+        $offset = $request->get("page") ? ($request->get("page") - 1) * $perPage : 0;
+
+        $posts = $this->postRepository->getPostsPaginatedByUserId($userId, $perPage, $offset);
+        $postsCount = $this->postRepository->getPostsCountsByUserId($userId);
+
+        $paginatedPosts = new LengthAwarePaginator(
+            $posts,
+            $postsCount,
+            $perPage,
+            $currentPage,
+            [
+                'path' => request()->url(),
+                'query' => request()->query(),
+            ]
+        );
+
+        return view('dashboard.my_posts.index', ['paginatedPosts' => $paginatedPosts]);
+    }
 }

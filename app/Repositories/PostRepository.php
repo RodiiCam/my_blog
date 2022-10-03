@@ -68,7 +68,7 @@ class PostRepository
     }
 
     /**
-     * Undocumented function
+     * Get paginated posts by user id
      *
      * @param integer $userId
      * @param integer $limit

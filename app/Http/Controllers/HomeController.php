@@ -51,9 +51,6 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
-        $userId = Auth::id();
-        $user = $this->userRepository->getUserById($userId);
-
         $perPage = 10;
         $currentPage = $request->get("page") ?? 0;
         $offset = $request->get("page") ? ($request->get("page") - 1) * $perPage : 0;

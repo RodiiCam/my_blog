@@ -78,25 +78,6 @@
         </nav>
 
         <main class="py-4">
-            <div class="mb-3 container">
-                <div class="row justify-content-center">
-                    <div class="col-md-8">
-                        <ul class="nav nav-tabs justify-content-start">
-                            <li class="nav-item">
-                                <a class="nav-link add-post {{ Route::is('home') ? 'active' : '' }}" href={{ route('home') }} >Home</a>
-                            </li>
-                            @if (Auth::check())
-                                <li class="nav-item">
-                                    <a class="nav-link add-post {{ Route::is('dashboard.post.create') ? 'active' : '' }}" href={{ route('dashboard.post.create') }}>Add Post</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link add-post {{ Route::is('dashboard.post.my_posts') ? 'active' : '' }}" href={{ route('dashboard.post.my_posts') }}>My Posts</a>
-                                </li>
-                            @endif
-                        </ul>
-                    </div>
-                </div>
-            </div>
             @yield('content')
         </main>
     </div>
